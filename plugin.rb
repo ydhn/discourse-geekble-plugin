@@ -4,7 +4,6 @@
 # author: Yundo Han
 # license: UNLICENSED
 # url: https://github.com/ydhn/discourse-geekble-plugin
-gem 'kaminari', {require: false}
 enabled_site_setting :discourse_geekble_plugin_enabled
 
 register_asset 'stylesheets/discourse-geekble-plugin.scss'
