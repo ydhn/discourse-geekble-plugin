@@ -16,10 +16,10 @@ module DiscourseGeekblePlugin
 
     private
     def extract_user(user)
-      Jbuilder.encode do |json|
-        json.extract! user, :id, :username, :admin
-        json.avatar_template user.avatar_template
-      end
+      { 
+        id: user.id, username: user.username, admin: user.admin,
+        avatar_template: user.avatar_template,
+      }
     end
   end
 end
