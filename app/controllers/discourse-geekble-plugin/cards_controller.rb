@@ -7,7 +7,8 @@ module DiscourseGeekblePlugin
       page = params[:page].to_i rescue 1
       stmt = card_category.topics.where("deleted_at IS NULL")
       stmt = stmt.order("last_posted_at desc")
-      stmt = stmt.limit(PAGE_SIZE).offset(PAGE_SIZE * (page-1))
+      #stmt = stmt.limit(PAGE_SIZE).offset(PAGE_SIZE * (page-1))
+      stmt = stmt.page(page).per_page(PAGE_SIZE)
       @cards = []
       stmt.each do |c|
         card = c.as_json
