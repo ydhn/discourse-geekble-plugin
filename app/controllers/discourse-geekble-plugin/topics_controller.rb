@@ -11,7 +11,7 @@ module DiscourseGeekblePlugin
         post[:user] = extract_user(p.user)
         @posts.push(post)
       end
-      render json: @posts
+      render json: { posts: @posts }
     end
 
     private
