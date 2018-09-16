@@ -6,7 +6,7 @@ module DiscourseGeekblePlugin
     end
 
     def test
-      render { "message": "hi" }, json: true
+      render json: {message: "hi"}
     end
 
   end
