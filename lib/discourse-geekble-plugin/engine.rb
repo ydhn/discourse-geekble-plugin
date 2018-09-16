@@ -5,7 +5,7 @@ module DiscourseGeekblePlugin
     config.after_initialize do
 
       Discourse::Application.routes.append do
-        mount ::DiscourseGeekblePlugin::Engine, at: "/geekble"
+        mount ::DiscourseGeekblePlugin::Engine, at: "/geekble-api"
       end
     end
 
