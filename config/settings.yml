@@ -1,0 +1,4 @@
+plugins:
+  discourse_geekble_plugin_enabled:
+    default: false
+    client: true
