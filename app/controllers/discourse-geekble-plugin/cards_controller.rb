@@ -13,6 +13,7 @@ module DiscourseGeekblePlugin
         card = c.as_json
         remarkable_posts = c.posts.where("like_count > 0").order('like_count desc').limit(1)
         card[:remarkable_post] = remarkable_posts.first.as_json if remarkable_posts.size
+        card[:first_post] = c.posts.first.as_json
         @cards.push card
       end
       render json: @cards
