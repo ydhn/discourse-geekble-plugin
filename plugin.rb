@@ -7,7 +7,7 @@
 
 enabled_site_setting :discourse_geekble_plugin_enabled
 
-gem 'kaminari'
 register_asset 'stylesheets/discourse-geekble-plugin.scss'
 
 load File.expand_path('../lib/discourse-geekble-plugin/engine.rb', __FILE__)
+gem 'kaminari'
