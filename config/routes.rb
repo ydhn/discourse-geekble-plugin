@@ -5,5 +5,5 @@ DiscourseGeekblePlugin::Engine.routes.draw do
   get "/hello" => "hello#index", constraints: constraints
   get "/cards" => "cards#index", constraints: constraints, defaults: { format: :json }
   get "/topics/:id" => "topics#show", constraints: constraints, defaults: { format: :json }
-  post "/reply/:id" => "posts#reply", constraints: constraints, defaults: { format: :json }
+  post "/reply/:post_id" => "posts#reply", constraints: constraints, defaults: { format: :json }
 end
