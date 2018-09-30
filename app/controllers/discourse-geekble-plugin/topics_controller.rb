@@ -5,7 +5,7 @@ module DiscourseGeekblePlugin
       posts = topic.posts.includes(:user).where("deleted_at IS NULL").order("created_at asc").offset(1)
       # 첫번째 original post를 제외함
       @posts = []
-      posts.each do |p|
+      posts.reverse.each do |p|
         post = p.as_json
         post[:like_count] = p.like_count
         post[:user] = extract_user(p.user)
