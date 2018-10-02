@@ -15,7 +15,7 @@ module DiscourseGeekblePlugin
 
     private
     def card_topics(page)
-      card_category = Category.find_by(slug: 'cards').id
+      card_category_id = Category.find_by(slug: 'cards').id
       stmt = Topic.includes(:tags)
       stmt = stmt.where(category_id: card_category_id)
       stmt = stmt.where("deleted_at IS NULL")
