@@ -27,7 +27,7 @@ module DiscourseGeekblePlugin
       @cards = []
       stmt.each do |c|
         card = c.as_json
-        card[:tags] = card.tags.map(&:name).as_json
+        card[:tags] = c.tags.map(&:name).as_json
         remarkable_posts = c.posts.where("like_count > 0").order('like_count desc').limit(1)
         card[:remarkable_post] = remarkable_posts.first.as_json if remarkable_posts.size
         card[:first_post] = c.posts.first.as_json
