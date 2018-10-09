@@ -13,6 +13,11 @@ module DiscourseGeekblePlugin
       render json: topics_to_json(stmt)
     end
 
+    def show
+      topic = Topic.find(params[:id])
+      render json: topic_to_card(topic)
+    end
+
     private
     def card_topics(page)
       card_category_id = Category.find_by(slug: 'cards').id
@@ -26,14 +31,19 @@ module DiscourseGeekblePlugin
     def topics_to_json(stmt)
       @cards = []
       stmt.each do |c|
-        card = c.as_json
-        card[:tags] = c.tags.map(&:name).as_json
-        remarkable_posts = c.posts.where("like_count > 0").order('like_count desc').limit(1)
-        card[:remarkable_post] = remarkable_posts.first.as_json if remarkable_posts.size
-        card[:first_post] = c.posts.first.as_json
+        card = topic_to_card(c)
         @cards.push card
       end
       @cards
+    end
+
+    def topic_to_card(c)
+      card = c.as_json
+      card[:tags] = c.tags.map(&:name).as_json
+      remarkable_posts = c.posts.where("like_count > 0").order('like_count desc').limit(1)
+      card[:remarkable_post] = remarkable_posts.first.as_json if remarkable_posts.size
+      card[:first_post] = c.posts.first.as_json
+      card
     end
   end
 
