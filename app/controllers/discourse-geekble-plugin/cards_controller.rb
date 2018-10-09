@@ -21,7 +21,7 @@ module DiscourseGeekblePlugin
     private
     def card_topics(page)
       card_category_id = Category.find_by(slug: 'cards').id
-      stmt = Topic.includes(:tags)
+      stmt = Topic.includes(:tags).includes(:user)
       stmt = stmt.where(category_id: card_category_id)
       stmt = stmt.where("deleted_at IS NULL")
       stmt = stmt.where("last_posted_at IS NOT NULL")
@@ -43,7 +43,14 @@ module DiscourseGeekblePlugin
       remarkable_posts = c.posts.where("like_count > 0").order('like_count desc').limit(1)
       card[:remarkable_post] = remarkable_posts.first.as_json if remarkable_posts.size
       card[:first_post] = c.posts.first.as_json
-      card
+      card[:user] = extract_user(c.user)
+    end
+
+    def extract_user(user)
+      { 
+        id: user.id, username: user.username, name: user.name, admin: user.admin,
+        avatar_template: user.avatar_template,
+      }
     end
   end
 
