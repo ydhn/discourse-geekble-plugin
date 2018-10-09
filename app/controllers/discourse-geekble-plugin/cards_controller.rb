@@ -44,6 +44,7 @@ module DiscourseGeekblePlugin
       card[:remarkable_post] = remarkable_posts.first.as_json if remarkable_posts.size
       card[:first_post] = c.posts.first.as_json
       card[:user] = extract_user(c.user)
+      card
     end
 
     def extract_user(user)
