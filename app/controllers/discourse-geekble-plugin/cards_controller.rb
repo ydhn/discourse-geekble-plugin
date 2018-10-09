@@ -1,6 +1,6 @@
 module DiscourseGeekblePlugin
   class CardsController < ApplicationController
-    PAGE_SIZE = 20
+    PAGE_SIZE = 10
     def top_index
       page = params[:page].to_i rescue 0
       stmt = card_topics(page).order("score desc")
@@ -41,7 +41,7 @@ module DiscourseGeekblePlugin
       card = c.as_json
       card[:tags] = c.tags.map(&:name).as_json
       remarkable_posts = c.posts.includes(:user).where("post_number != 1").where("like_count > 0").order('like_count desc').limit(1)
-      if remarkable_posts.size
+      if remarkable_posts.size > 0
         remarkable_post = remarkable_posts.first
         remarkable_post_user = {user: extract_user(remarkable_post.user)}.as_json
         remarkable_post = remarkable_post.as_json.merge(remarkable_post_user)
