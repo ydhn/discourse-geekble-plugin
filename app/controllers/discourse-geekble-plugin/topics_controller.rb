@@ -10,7 +10,7 @@ module DiscourseGeekblePlugin
         post[:like_count] = p.like_count
         post[:user] = extract_user(p.user)
         if current_user
-          post[:liked_by_me] = !p.post_actions.find_by(user_id: current_user.id, post_action_type_id: 2).nil?
+          post[:liked_by_me] = !!p.post_actions.find_by(user_id: current_user.id, post_action_type_id: 2)
         end
         @posts.push(post)
       end

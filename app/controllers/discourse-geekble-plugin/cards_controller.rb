@@ -40,11 +40,15 @@ module DiscourseGeekblePlugin
     def topic_to_card(c)
       card = c.as_json
       card[:tags] = c.tags.map(&:name).as_json
-      remarkable_posts = c.posts.includes(:user).where("post_number != 1").where("like_count > 0").order('like_count desc').limit(1)
+      remarkable_posts = c.posts.includes(:user).includes(:post_actions).where("post_number != 1").where("like_count > 0").order('like_count desc').limit(1)
       if remarkable_posts.size > 0
         remarkable_post = remarkable_posts.first
         remarkable_post_user = {user: extract_user(remarkable_post.user)}.as_json
         remarkable_post = remarkable_post.as_json.merge(remarkable_post_user)
+        if current_user
+          liked_by_me = {liked_by_me: !!p.post_actions.find_by(user_id: current_user.id, post_action_type_id: 2)}.as_json
+          remarkable_post = remarkable_post.merge(liked_by_me)
+        end
         card[:remarkable_post] = remarkable_post
       end
       card[:first_post] = c.posts.first.as_json
