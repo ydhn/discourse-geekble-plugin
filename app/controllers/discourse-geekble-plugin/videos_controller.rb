@@ -14,7 +14,7 @@ module DiscourseGeekblePlugin
           first_post = first_post.merge(liked_by_me)
         end
         video[:first_post] = first_post
-        video[:user] = extract_user(c.user)
+        video[:user] = extract_user(v.user)
         video
       end
   
