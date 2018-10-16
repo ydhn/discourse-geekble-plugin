@@ -8,5 +8,5 @@ DiscourseGeekblePlugin::Engine.routes.draw do
   get "/cards/:id" => "cards#show", constraints: constraints, defaults: { format: :json }
   get "/topics/:id" => "topics#show", constraints: constraints, defaults: { format: :json }
   post "/reply/:post_id" => "posts#reply", constraints: constraints, defaults: { format: :json }
-  delete "/posts/:id/like" => "posts#unlike", constraints: constraints, defaults: { format: :json }
+  post "/posts/:id/unlike" => "posts#unlike", constraints: constraints, defaults: { format: :json }
 end
