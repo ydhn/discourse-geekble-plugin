@@ -51,7 +51,12 @@ module DiscourseGeekblePlugin
         end
         card[:remarkable_post] = remarkable_post
       end
-      card[:first_post] = c.posts.first.as_json
+      first_post = c.posts.first.as_json
+      if current_user
+        liked_by_me = {liked_by_me: !!c.posts.first.post_actions.find_by(user_id: current_user.id, post_action_type_id: 2)}.as_json
+        first_post = first_post.merge(liked_by_me)
+      end
+      card[:first_post] = first_post
       card[:user] = extract_user(c.user)
       card
     end
