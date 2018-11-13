@@ -3,13 +3,13 @@ module DiscourseGeekblePlugin
     PAGE_SIZE = 10
     def top_index
       page = params[:page].to_i rescue 0
-      stmt = card_topics(page).order("score desc")
+      stmt = card_topics(page, true).order("last_posted_at desc")
       render json: topics_to_json(stmt)
     end
 
     def recent_index
       page = params[:page].to_i rescue 0
-      stmt = card_topics(page).order("last_posted_at desc")
+      stmt = card_topics(page, false).order("last_posted_at desc")
       render json: topics_to_json(stmt)
     end
 
@@ -19,12 +19,13 @@ module DiscourseGeekblePlugin
     end
 
     private
-    def card_topics(page)
+    def card_topics(page, pin = nil)
       card_category_id = Category.find_by(slug: 'cards').id
-      stmt = Topic.includes(:tags).includes(:user)
+      stmt = Topic.includes(:tags).includes(:user).includes(:posts)
       stmt = stmt.where(category_id: card_category_id)
       stmt = stmt.where("deleted_at IS NULL")
       stmt = stmt.where("last_posted_at IS NOT NULL")
+      stmt = stmt.where("pinned_until >= ?", Date.today) if pin
       stmt = stmt.limit(PAGE_SIZE).offset(PAGE_SIZE * page)
     end
 
